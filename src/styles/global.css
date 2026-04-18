@@ -519,28 +519,30 @@ body {
   padding-left: 16px;
 }
 
-/* 结果页操作按钮 */
+/* 结果页操作按钮 — 一排到底，在手机和电脑上都是一排 */
 .result__actions {
   display: flex;
   flex-direction: row;
-  gap: 10px;
-  align-items: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
 }
 
 .result__actions-row {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
-/* 方形图标按钮 — 高度和分享按钮一致 */
+/* 方形图标按钮 — 尺寸与放大后的分享按钮一致 */
 .btn-icon {
   cursor: pointer;
   border: 1.5px solid var(--ink);
   outline: none;
   border-radius: var(--r-sm);
-  width: 38px;
-  height: 38px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -551,8 +553,8 @@ body {
 }
 
 .btn-icon svg {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
 .btn-icon:hover {
@@ -581,20 +583,25 @@ body {
   flex: 1;
 }
 
-/* 分享按钮 */
+/* 分享按钮 — 放大，和图标按钮同高 */
 .btn-share {
   position: relative;
   cursor: pointer;
   border: 1.5px solid var(--ink);
   outline: none;
   border-radius: var(--r-pill);
-  padding: 13px 24px;
-  font-size: 15px;
+  height: 48px;
+  padding: 0 20px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.03em;
   color: var(--ink);
   background: transparent;
   flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: all var(--dur) var(--ease-silk);
   font-family: var(--font);
 }
