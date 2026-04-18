@@ -378,6 +378,7 @@ body {
   font-size: 14px;
   line-height: 1.9;
   color: var(--ink-soft);
+  text-indent: 2em;
 }
 
 .result__section-title {
@@ -517,6 +518,207 @@ body {
   white-space: pre-line;
   border-left: 2px solid var(--card-border);
   padding-left: 16px;
+}
+
+.outro-shine {
+  cursor: pointer;
+  user-select: none;
+  transition: text-shadow 0.2s, color 0.2s;
+  outline: none;
+}
+.outro-shine:hover,
+.outro-shine:focus-visible {
+  color: #c99a2a;
+  text-shadow: 0 0 10px rgba(245, 200, 76, 0.75);
+}
+
+.outro-rainbow {
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition: text-shadow 0.2s;
+}
+.outro-rainbow:hover,
+.outro-rainbow:focus-visible {
+  text-shadow:
+    -0.6px 0 0 rgba(255, 80, 80, 0.55),
+    0.6px 0 0 rgba(78, 108, 255, 0.55),
+    0 0 8px rgba(156, 76, 240, 0.35);
+}
+
+.star-rain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9999;
+}
+.star-rain__star {
+  position: absolute;
+  top: -48px;
+  color: #f5c84c;
+  text-shadow: 0 0 10px rgba(255, 200, 80, 0.7), 0 0 4px rgba(255, 220, 120, 0.9);
+  animation-name: star-fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+}
+@keyframes star-fall {
+  0%   { transform: translateY(0) rotate(0deg);     opacity: 0; }
+  4%   { opacity: 0.55; }
+  35%  { opacity: 1; }
+  70%  { opacity: 1; }
+  88%  { opacity: 0.55; }
+  100% { transform: translateY(115vh) rotate(540deg); opacity: 0; }
+}
+
+/* 彩蛋 · 梧桐叶飘落 */
+.outro-leaves,
+.outro-turtle {
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition: text-shadow 0.2s;
+}
+.outro-leaves:hover,
+.outro-leaves:focus-visible {
+  text-shadow: 0 0 6px rgba(200, 139, 58, 0.55);
+}
+.outro-turtle:hover,
+.outro-turtle:focus-visible {
+  text-shadow: 0 0 6px rgba(70, 150, 90, 0.55);
+}
+
+.leaf-rain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9998;
+}
+.leaf-rain__leaf {
+  position: absolute;
+  top: -64px;
+  animation-name: leaf-fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+}
+.leaf-rain__sway {
+  display: inline-block;
+  position: relative;
+  animation: leaf-sway var(--sway-dur, 3s) ease-in-out infinite alternate;
+  transform-origin: center;
+}
+.leaf-rain__warning {
+  position: absolute;
+  left: 50%;
+  top: -18px;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 700;
+  color: #c14b2e;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(193, 75, 46, 0.4);
+  border-radius: 10px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+@keyframes leaf-fall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  6%   { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(118vh) rotate(var(--rot-end, 540deg)); opacity: 0; }
+}
+@keyframes leaf-sway {
+  from { transform: translateX(-22px) rotate(-12deg); }
+  to   { transform: translateX(22px)  rotate(12deg); }
+}
+
+/* 彩蛋 · 长安乌龟 */
+.turtle-walk {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  pointer-events: none;
+  z-index: 9998;
+  animation: turtle-walk 8.5s linear forwards;
+}
+.turtle-walk__body {
+  position: absolute;
+  left: -80px;
+  bottom: 0;
+  font-size: 36px;
+  line-height: 1;
+  display: inline-block;
+}
+.turtle-walk__bubble {
+  position: absolute;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: #5c5c5c;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 3px 9px;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.turtle-walk__bubble::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 8px;
+  height: 8px;
+  background: rgba(255,255,255,0.92);
+  border-right: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
+  transform: translateX(-50%) rotate(45deg);
+}
+@keyframes turtle-walk {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(calc(100vw + 160px)); }
+}
+
+/* 彩蛋 · MEAL 人格代码可点击 */
+.result__code--meal {
+  cursor: pointer;
+  user-select: none;
+  transition: text-shadow 0.2s;
+}
+.result__code--meal:hover,
+.result__code--meal:focus-visible {
+  text-shadow: 0 0 10px rgba(220, 140, 60, 0.35);
+  outline: none;
+}
+
+/* 彩蛋 · 雷达图人格代码散开 */
+.radar-spread {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9997;
+}
+.radar-spread__code {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: 0.02em;
+  transform: translate(-50%, -50%);
+  animation: radar-spread 1.5s cubic-bezier(0.25, 0.9, 0.3, 1) forwards;
+  white-space: nowrap;
+}
+@keyframes radar-spread {
+  0%   { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1); opacity: 0; }
 }
 
 /* 结果页操作按钮 — 一排到底，在手机和电脑上都是一排 */
@@ -754,6 +956,169 @@ body {
 .glossary__name {
   font-size: 12px;
   color: var(--muted);
+}
+
+/* ========== 食谱弹窗 ========== */
+.recipe-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fade-in 0.2s ease-out both;
+}
+
+.recipe-modal {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--r-lg);
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 24px 20px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  animation: slide-up 0.25s cubic-bezier(0.25, 0.9, 0.3, 1) both;
+}
+
+.recipe-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.recipe-modal__title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.recipe-modal__close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--muted);
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  transition: color 0.15s, background 0.15s;
+}
+.recipe-modal__close:hover {
+  color: var(--ink);
+  background: var(--card-border);
+}
+
+.recipe-modal__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* 动态卡片风格 */
+.recipe-card {
+  background: #1e1e1e;
+  border-radius: 16px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+  padding: 16px 12px;
+}
+.recipe-card:hover {
+  transform: scale(1.04) rotate(-1deg);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.recipe-card__emoji {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 12px;
+  transition: 0.25s ease-in-out;
+}
+.recipe-card:hover .recipe-card__emoji {
+  font-size: 56px;
+  animation: emoji-float 3s ease-in-out infinite;
+}
+
+.recipe-card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  z-index: 2;
+}
+
+.recipe-card__name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+.recipe-card__rating {
+  font-size: 11px;
+  color: #f5c84c;
+  letter-spacing: 0.05em;
+}
+.recipe-card__comment {
+  font-size: 11px;
+  color: #c0c0c0;
+  line-height: 1.6;
+}
+
+@keyframes emoji-float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+/* 人格代码可点击 */
+.result__code--clickable {
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.15s;
+}
+.result__code--clickable:hover {
+  opacity: 0.7;
+}
+
+.result__easter-egg-hint {
+  font-size: 11px;
+  color: var(--muted-2);
+  text-align: center;
+  margin-top: 12px;
+  letter-spacing: 0.02em;
+}
+
+.easter-egg-hint {
+  font-size: 11px;
+  color: var(--muted-2);
+  text-align: center;
+  padding: 0 20px 8px;
+  letter-spacing: 0.02em;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ========== 动效 ========== */

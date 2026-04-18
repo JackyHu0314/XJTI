@@ -19,13 +19,14 @@ interface Props {
   scores: Scores;
   size?: number;
   highlight?: PersonalityCode;
-  showChinese?: boolean; // 是否显示中文
+  showChinese?: boolean;
+  maxed?: boolean;
 }
 
 const PADDING = 52;
 const RING_COUNT = 4;
 
-export default function RadarChart({ scores, size = 300, highlight, showChinese = false }: Props) {
+export default function RadarChart({ scores, size = 300, highlight, showChinese = false, maxed = false }: Props) {
   const cx = size / 2;
   const cy = size / 2;
   const radius = size / 2 - PADDING;
@@ -33,6 +34,10 @@ export default function RadarChart({ scores, size = 300, highlight, showChinese 
   const n = codes.length;
 
   const maxScore = Math.max(2, ...Object.values(scores));
+  const displayScores = maxed
+    ? Object.fromEntries(codes.map((c) => [c, maxScore])) as Scores
+    : scores;
+
   const angleFor = (i: number) => (-Math.PI / 2) + (2 * Math.PI * i) / n;
   const axisEnd = (i: number) => {
     const a = angleFor(i);
@@ -45,7 +50,7 @@ export default function RadarChart({ scores, size = 300, highlight, showChinese 
   };
 
   const polygonPoints = codes
-    .map((code, i) => { const { x, y } = pointFor(i, scores[code]); return `${x.toFixed(2)},${y.toFixed(2)}`; })
+    .map((code, i) => { const { x, y } = pointFor(i, displayScores[code]); return `${x.toFixed(2)},${y.toFixed(2)}`; })
     .join(' ');
 
   const ringPolygons = Array.from({ length: RING_COUNT }, (_, ri) => {
@@ -66,11 +71,30 @@ export default function RadarChart({ scores, size = 300, highlight, showChinese 
         const end = axisEnd(i);
         return <line key={i} x1={cx} y1={cy} x2={end.x.toFixed(2)} y2={end.y.toFixed(2)} stroke="#e5e5e5" strokeWidth={1} />;
       })}
-      <polygon points={polygonPoints} fill="#0a0a0a" fillOpacity={0.08} stroke="#0a0a0a" strokeWidth={1.5} strokeLinejoin="round" />
+      <polygon
+        points={polygonPoints}
+        fill="#0a0a0a"
+        fillOpacity={0.08}
+        stroke="#0a0a0a"
+        strokeWidth={1.5}
+        strokeLinejoin="round"
+        style={{ transition: 'all 0.6s cubic-bezier(0.25, 0.9, 0.3, 1)' }}
+      />
       {codes.map((code, i) => {
-        const { x, y } = pointFor(i, scores[code]);
+        const { x, y } = pointFor(i, displayScores[code]);
         const isMax = code === highlight;
-        return <circle key={code} cx={x} cy={y} r={isMax ? 4 : 2.5} fill={isMax ? '#0a0a0a' : '#ffffff'} stroke="#0a0a0a" strokeWidth={1.5} />;
+        return (
+          <circle
+            key={code}
+            cx={x}
+            cy={y}
+            r={isMax ? 4 : 2.5}
+            fill={isMax ? '#0a0a0a' : '#ffffff'}
+            stroke="#0a0a0a"
+            strokeWidth={1.5}
+            style={{ transition: 'all 0.6s cubic-bezier(0.25, 0.9, 0.3, 1)' }}
+          />
+        );
       })}
       {codes.map((code, i) => {
         const a = angleFor(i);

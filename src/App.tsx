@@ -41,6 +41,7 @@ export default function App() {
         {view === 'quiz' && <Quiz onFinish={finish} />}
         {view === 'result' && result && <ResultView result={result} onRestart={restart} />}
       </main>
+      {view === 'result' && <p className="easter-egg-hint">本页含多个动效彩蛋，同学们自行探索</p>}
       <footer className="app__footer">
         <span>XJTI · EST.1896</span>
         <span>1956 → 2026 // 西迁 70th</span>
