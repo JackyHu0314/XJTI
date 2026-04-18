@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.vite/
+*.log
+.DS_Store
+Thumbs.db
+
+# TS 构建缓存
+*.tsbuildinfo
+
+# 用户原始素材（未公开题库 / 文案草稿），不上传到 GitHub
+文本内容/
