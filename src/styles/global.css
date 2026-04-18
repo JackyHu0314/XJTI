@@ -522,14 +522,15 @@ body {
 /* 结果页操作按钮 */
 .result__actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
+  align-items: center;
 }
 
 .result__actions-row {
   display: flex;
   gap: 10px;
-  justify-content: center;
+  flex-shrink: 0;
 }
 
 /* 方形图标按钮 — 高度和分享按钮一致 */
@@ -587,13 +588,13 @@ body {
   border: 1.5px solid var(--ink);
   outline: none;
   border-radius: var(--r-pill);
-  padding: 5px 18px;
-  font-size: 12px;
+  padding: 13px 24px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.03em;
   color: var(--ink);
   background: transparent;
-  width: 100%;
+  flex: 1;
   transition: all var(--dur) var(--ease-silk);
   font-family: var(--font);
 }
@@ -757,6 +758,4 @@ body {
 /* ========== 桌面端适当放宽 ========== */
 @media (min-width: 640px) {
   .app__main { padding: 64px 32px 40px; max-width: 560px; }
-  .result__actions { flex-direction: row; }
-  .btn-primary, .btn-secondary { width: auto; flex: 1; }
 }

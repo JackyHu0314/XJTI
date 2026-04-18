@@ -9,7 +9,7 @@ const OUTRO_TEXT = `交大很大，容得下硬核的极客，也装得下浪漫
 不管你是哪一种人格，都是这所百廿学府里不可或缺的色彩。
 长安道远，愿你在交大，找到自己的节奏，闪闪发光。`;
 
-const SITE_URL = 'xjti.top';
+const SITE_URL = 'http://www.xjti.top/';
 
 function buildShareText(code: string, title: string, tagline: string, soulmates: string[]): string {
   return `我在 XJTI 西安交大人格测试中测出了——
@@ -40,12 +40,46 @@ export default function ResultView({ result, onRestart }: Props) {
     if (!cardRef.current) return;
     setDownloading(true);
     try {
-      const canvas = await html2canvas(cardRef.current, {
-        backgroundColor: '#ffffff', scale: 2, useCORS: true,
+      // 9:16 海报尺寸
+      const W = 1080;
+      const H = 1920;
+
+      const cardCanvas = await html2canvas(cardRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true,
       });
+
+      const poster = document.createElement('canvas');
+      poster.width = W;
+      poster.height = H;
+      const ctx = poster.getContext('2d')!;
+
+      // 白底 + 网格背景
+      ctx.fillStyle = '#F3F3F3';
+      ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = '#E1E1E1';
+      ctx.lineWidth = 1;
+      const grid = 55;
+      for (let x = 0; x <= W; x += grid) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+      for (let y = 0; y <= H; y += grid) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+
+      // 居中放卡片
+      const cardW = Math.min(cardCanvas.width, W - 80);
+      const cardH = cardCanvas.height * (cardW / cardCanvas.width);
+      const cardX = (W - cardW) / 2;
+      const cardY = (H - cardH) / 2;
+      ctx.drawImage(cardCanvas, cardX, cardY, cardW, cardH);
+
+      // 底部署名
+      ctx.fillStyle = '#a3a3a3';
+      ctx.font = '28px ui-monospace, Menlo, monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('XJTI · xjti.top', W / 2, H - 60);
+
       const link = document.createElement('a');
-      link.download = `XJTI-${personality.code}.png`;
-      link.href = canvas.toDataURL('image/png');
+      link.download = `XJTI-${personality.code}.jpg`;
+      link.href = poster.toDataURL('image/jpeg', 0.92);
       link.click();
     } finally {
       setDownloading(false);
