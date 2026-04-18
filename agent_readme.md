@@ -59,25 +59,27 @@ XJTI/
 │   └── favicon.svg
 ├── src/
 │   ├── main.tsx            # React 挂载入口
-│   ├── App.tsx             # 视图切换根组件（landing / quiz / result）
+│   ├── App.tsx             # 视图切换根组件（landing / quiz / result）+ 彩蛋提示
 │   ├── types.ts            # 全局类型（PersonalityCode / Question / Result …）
 │   ├── data/
 │   │   ├── questions.ts    # 13 道题（唯一题库）
-│   │   └── personalities.ts# 10 个人格完整描述
+│   │   ├── personalities.ts# 10 个人格完整描述
+│   │   └── recipes.ts      # 10 人格 × 4 道陕西美食推荐（v0.0.2 新增）
 │   ├── lib/
 │   │   ├── score.ts        # 计分算法
 │   │   └── storage.ts      # sessionStorage 读写
 │   ├── pages/
-│   │   ├── Landing.tsx
+│   │   ├── Landing.tsx     # 首页（去标点换行优化）
 │   │   ├── Quiz.tsx
-│   │   └── Result.tsx
+│   │   └── Result.tsx      # 结果页（6 个彩蛋 + 食谱弹窗）
 │   ├── components/
 │   │   ├── ProgressBar.tsx
 │   │   ├── QuestionCard.tsx
-│   │   ├── RadarChart.tsx
-│   │   └── SoulmateCard.tsx
+│   │   ├── RadarChart.tsx  # 支持 maxed 状态（双击拉满动画）
+│   │   ├── SoulmateCard.tsx
+│   │   └── RecipeModal.tsx # 食谱弹窗（v0.0.2 新增）
 │   └── styles/
-│       └── global.css
+│       └── global.css      # 含 6 个彩蛋动画 + 食谱卡片样式
 ├── 文本内容/               # 用户原始素材（.gitignore 拦住，不上传）
 ├── agent_readme.md
 ├── progress.md
@@ -116,9 +118,24 @@ XJTI/
 
 ## 数据口径
 
-`src/data/questions.ts` 和 `src/data/personalities.ts` 是**唯一数据源**。
+`src/data/questions.ts`、`src/data/personalities.ts`、`src/data/recipes.ts` 是**唯一数据源**。
 
-改题 / 改权重 / 改人格文案 → 只改这两个文件，其余代码无需动。
+- 改题 / 改权重 / 改人格文案 → 只改 `questions.ts` 和 `personalities.ts`
+- 改食谱推荐 → 只改 `recipes.ts`（v0.0.2 新增，10 人格 × 4 道陕西美食）
+
+## 交互彩蛋（v0.0.2）
+
+结果页含 6 个隐藏彩蛋，所有浮层用 `createPortal` 挂到 `document.body`：
+
+1. **点击人格代码** → 弹出专属陕西美食推荐（4 张动态卡片，hover 时 emoji 放大浮动）
+2. **双击雷达图** → 雷达拉满动画（0.6s 过渡到满级）+ 10 个人格代码从中心散开
+3. **点击"闪闪发光"** → 金色星雨（80 颗，4.5-8s 渐隐）
+4. **点击"色彩"** → 七彩星雨（90 颗，赤橙黄绿青蓝紫随机）
+5. **点击"慢行者"** → 梧桐叶飘落（12 片，随机 1 片带"⚠ 小心头顶"贴纸）
+6. **点击"长安"** → 乌龟慢爬（8.5s，带"真的很远……"气泡）
+7. **MEAL 限定** → 点击人格代码额外触发食堂菜 emoji 雨（60 个）
+
+所有动画结束自动卸载 DOM，不污染海报截图（`cardRef` 只截卡片内容）。
 
 ## 内容约定
 
@@ -126,11 +143,13 @@ XJTI/
 - **敏感话题黑名单**（学生会场景必须过滤）：绩点极端比较 / 家庭背景 / 恋爱 / 地域 / 政治 / 社交 KPI 比较
 - **保留话题**：生活节奏、学习地点偏好、校园空间、情绪调节方式、作息、饮食
 - **首页欢迎语 / 结尾语**：`文本内容/封面+结尾/封面+结尾1.0` 里已有终稿，已硬编码进 `Landing.tsx` 和 `Result.tsx`
+- **陕西美食推荐**（v0.0.2）：每个人格 4 道菜，结合人格特点 + 陕西地方特色（肉夹馍、biangbiang面、冰峰、羊肉泡馍、胡辣汤、茯茶等）
 
 ## 部署
 
-- **Netlify**（推荐）：连 GitHub 仓库，build `npm run build`，publish `dist`
-- **GitHub Pages**：`npm run build` → `dist/` 推到 `gh-pages` 分支
+- **Cloudflare Pages**（当前使用）：连 GitHub 仓库，build `npm run build`，publish `dist`，绑定域名 xjti.top
+- **Netlify**（备选）：连 GitHub 仓库，build `npm run build`，publish `dist`
+- **GitHub Pages**（备选）：`npm run build` → `dist/` 推到 `gh-pages` 分支
 
 ## 参考资源
 
